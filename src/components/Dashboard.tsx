@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -18,11 +17,35 @@ const Dashboard = () => {
   
   if (!user) return null;
 
-  // Generate a demo savings account
+  // Generate consistent account numbers based on user ID
+  const generateAccountNumber = (userId: string, accountType: string) => {
+    // Use the first 8 chars of the user ID to create a consistent unique number
+    const uniquePart = userId.substring(0, 8);
+    // Hash the unique part + account type to get a consistent last 4 digits
+    let hash = 0;
+    for (let i = 0; i < uniquePart.length + accountType.length; i++) {
+      const char = (uniquePart + accountType)[i % (uniquePart.length + accountType.length)];
+      hash = ((hash << 5) - hash) + char.charCodeAt(0);
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    // Get last 4 digits (positive value)
+    const lastFour = Math.abs(hash % 10000).toString().padStart(4, '0');
+    return lastFour;
+  };
+
+  // Create consistent account numbers
+  const checkingLastFour = generateAccountNumber(user.id, "checking");
+  const savingsLastFour = generateAccountNumber(user.id, "savings");
+  
+  // Create the full account number for display
+  const checkingAccountNumber = `${user.id.substring(0, 4)}7890`;
+  const savingsAccountNumber = `${user.id.substring(0, 4)}4321`;
+
+  // Generate a demo savings account with consistent account number
   const savingsAccount = {
     id: "savings-" + user.id,
     balance: 5000.50,
-    accountNumber: user.id.substring(0, 4) + "4321"
+    accountNumber: savingsAccountNumber
   };
 
   const handleTabChange = (value: string) => {
@@ -84,13 +107,13 @@ const Dashboard = () => {
               <AccountCard 
                 type="Checking" 
                 balance={user.balance} 
-                accountNumber={user.id + "7890"} 
+                accountNumber={checkingAccountNumber} 
               />
               
               <AccountCard 
                 type="Savings" 
                 balance={savingsAccount.balance} 
-                accountNumber={savingsAccount.accountNumber} 
+                accountNumber={savingsAccountNumber} 
               />
             </div>
           </div>
@@ -114,7 +137,7 @@ const Dashboard = () => {
                   {actionType === "none" && (
                     <AccountInfoTab 
                       accountType="Checking Account"
-                      accountNumber="1234567890"
+                      accountNumber={checkingAccountNumber}
                       balance={user.balance}
                       onWithdraw={() => handleActionSelect("withdraw")}
                       onDeposit={() => handleActionSelect("deposit")}

@@ -19,10 +19,14 @@ const AccountInfoTab = ({
   onDeposit, 
   onTransfer 
 }: AccountInfoTabProps) => {
+  // Display the masked account number with only last 4 visible
+  const lastFour = accountNumber.substring(accountNumber.length - 4);
+  const maskedNumber = `xxxx-xxxx-xxxx-${lastFour}`;
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-1">{accountType}</h2>
-      <p className="text-gray-600 mb-4">Account #{accountNumber}</p>
+      <p className="text-gray-600 mb-4">Account #{maskedNumber}</p>
       
       <div className="mb-10">
         <p className="text-gray-600">Current Balance</p>
