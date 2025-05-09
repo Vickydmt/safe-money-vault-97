@@ -4,14 +4,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Mail } from "lucide-react";
 
 interface RegisterFormProps {
   onToggleForm: () => void;
 }
 
 const RegisterForm = ({ onToggleForm }: RegisterFormProps) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
@@ -23,7 +23,7 @@ const RegisterForm = ({ onToggleForm }: RegisterFormProps) => {
     setIsLoading(true);
     
     try {
-      await register(username, fullName, pin, confirmPin);
+      await register(email, fullName, pin, confirmPin);
     } finally {
       setIsLoading(false);
     }
@@ -53,15 +53,16 @@ const RegisterForm = ({ onToggleForm }: RegisterFormProps) => {
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="username" className="text-sm font-medium">
-              Username
+            <label htmlFor="email" className="text-sm font-medium">
+              Email
             </label>
             <Input
-              id="username"
-              placeholder="Choose a username"
+              id="email"
+              type="email"
+              placeholder="Enter your email"
               required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full"
             />
           </div>

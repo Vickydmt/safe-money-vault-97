@@ -4,14 +4,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { LogIn } from "lucide-react";
+import { LogIn, Mail } from "lucide-react";
 
 interface LoginFormProps {
   onToggleForm: () => void;
 }
 
 const LoginForm = ({ onToggleForm }: LoginFormProps) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
@@ -21,7 +21,7 @@ const LoginForm = ({ onToggleForm }: LoginFormProps) => {
     setIsLoading(true);
     
     try {
-      await login(username, pin);
+      await login(email, pin);
     } finally {
       setIsLoading(false);
     }
@@ -32,21 +32,22 @@ const LoginForm = ({ onToggleForm }: LoginFormProps) => {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">Login to Your Account</CardTitle>
         <CardDescription className="text-center">
-          Enter your username and PIN to access your ATM account
+          Enter your email and PIN to access your ATM account
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="username" className="text-sm font-medium">
-              Username
+            <label htmlFor="email" className="text-sm font-medium">
+              Email
             </label>
             <Input
-              id="username"
-              placeholder="Enter your username"
+              id="email"
+              type="email"
+              placeholder="Enter your email"
               required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full"
             />
           </div>

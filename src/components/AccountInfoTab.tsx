@@ -20,7 +20,7 @@ const AccountInfoTab = ({
   onTransfer 
 }: AccountInfoTabProps) => {
   // Display the masked account number with only last 4 visible
-  const lastFour = accountNumber.substring(accountNumber.length - 4);
+  const lastFour = accountNumber.slice(-4);
   const maskedNumber = `xxxx-xxxx-xxxx-${lastFour}`;
 
   return (
