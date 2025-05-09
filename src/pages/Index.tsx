@@ -7,7 +7,7 @@ const Index = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="min-h-screen bg-atm-background">
+    <div className="min-h-screen bg-gray-50">
       {isAuthenticated ? <Dashboard /> : <Auth />}
     </div>
   );
