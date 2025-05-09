@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUsers(JSON.parse(storedUsers));
     } else {
       // Initialize with a demo account if no users exist
-      const demoUser = {
+      const demoUser: User = {
         id: "demo1",
         username: "demo",
         fullName: "Demo User",
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         transactions: [
           {
             id: "init1",
-            type: "deposit",
+            type: "deposit" as const,
             amount: 1000,
             description: "Initial deposit",
             timestamp: Date.now(),
